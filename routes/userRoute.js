@@ -99,7 +99,7 @@ router.post("/apply-department-account", authMiddleware, async (req, res) => {
       },
       onClickPath: "/admin/department",
     });
-    await User.findByIdAndUpdate(adminUser.id, { unseenNotifications });
+    await User.findByIdAndUpdate(adminUser._id, { unseenNotifications });
     res.status(200).send({
       success: true,
       message: "Department account applied successfully",
