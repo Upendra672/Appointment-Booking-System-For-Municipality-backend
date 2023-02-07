@@ -97,7 +97,7 @@ router.post("/apply-department-account", authMiddleware, async (req, res) => {
         departmentId: newdepartment._id,
         name: newdepartment.departmentName,
       },
-      onClickPath: "/admin/department",
+      onClickPath: "/admin/departmentlist",
     });
     await User.findByIdAndUpdate(adminUser._id, { unseenNotifications });
     res.status(200).send({
@@ -165,4 +165,25 @@ router.post("/delete-all-notifications", authMiddleware, async (req, res) => {
   }
 });
 
+router.get(
+  "/get-all-approved-departments",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const departments = await Department.find({ status: "approved" });
+      res.status(200).send({
+        success: true,
+        message: "Department fetched successfully",
+        data: departments,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Error applying Department account",
+        error,
+      });
+    }
+  }
+);
 module.exports = router;
