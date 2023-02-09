@@ -16,6 +16,7 @@ router.post(
         data: department,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).send({
         message: "Error getting department info",
         success: false,
@@ -72,7 +73,7 @@ router.get(
   authMiddleware,
   async (req, res) => {
     try {
-      const department = await Department.find({userId:req.body.userId})
+      const department = await Department.findOne({userId:req.body.userId})
       const appointments = await Appointment.find({ departmentId:department._id});
       res.status(200).send({
         success: true,
@@ -80,7 +81,7 @@ router.get(
         data: appointments,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       res.status(500).send({
         success: false,
         message: "Error fetching Appointments",
@@ -99,7 +100,7 @@ router.post(
         status,
       });
       const user = await User.findOne({ _id:appointment.userId });
-      const unseenNotifications = user.unseenNotifications;
+      const unseenNotifications = user.unseenNotifications; 
       unseenNotifications.push({
         type: "appointment-status-has-been-changed",
         message: `Your Appointment status has been ${status}`,
@@ -107,9 +108,9 @@ router.post(
       });
       //   await User.findByIdAndUpdate(user._id, {unseenNotifications})
       //   const departments = await Department.find({})
-      user.isDepartment = status === "approved" ? true : false;
+      // user.isDepartment = status === "approved" ? true : false;
       await user.save();
-      res.status(200).send({
+      res.status(200).send({ 
         message: "Department Status updated successfully",
         success: true,
       });
