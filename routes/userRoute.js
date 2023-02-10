@@ -256,7 +256,7 @@ router.post("/check-booking-availability", authMiddleware, async (req, res) => {
     });
   }
 });
-router.get("/get-appointment -by-user-id", authMiddleware, async (req, res) => {
+router.get("/get-appointment-by-user-id", authMiddleware, async (req, res) => {
   try {
     const appointments = await Appointment.find({ userId: req.body.userId });
     res.status(200).send({
