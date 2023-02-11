@@ -37,7 +37,11 @@ const departmentSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "pending"
-    }
+    },
+    // slots:{
+    //   type: Number,
+    //   required: true,  
+    // }
   },
   {
     timestamps: true,

@@ -30,6 +30,10 @@ const appointmentSchema = new mongoose.Schema({
     required: true,
     default: "approved",
   },
+  // slots:{
+  //   type: Number,
+  //   required: true,  
+  // }
 },{
     timestamps:true,
 });

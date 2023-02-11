@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
+const nodemailer = require('nodemailer');
 const Department = require("../models/departmentModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -10,6 +11,7 @@ const moment = require("moment");
 //this backend code is for registration
 router.post("/register", async (req, res) => {
   try {
+    
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) {
       return res
@@ -22,6 +24,7 @@ router.post("/register", async (req, res) => {
     req.body.password = hashedPassword;
     const newuser = new User(req.body);
     await newuser.save();
+    
     res
       .status(200)
       .send({ message: "User Created Scuccessfully", success: true });
@@ -195,6 +198,20 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     req.body.time = moment(req.body.time, "HH:mm").toISOString();
     const newAppointment = new Appointment(req.body);
     await newAppointment.save();
+    let mailTransporter = nodemailer.createTransport({
+      service : "gmail",
+      auth:{
+        user: "codercoder803@gmail.com",
+        pass: "zdpoebckalnszwsq"
+      }
+    })
+    const email = await User.findOne({userId: req.body.email})
+    let details = {
+      from: "codercoder803@gmail.com",
+      to: "kamilp786@gmail.com",
+      subject : "testing our nodemailer",
+      text: "Testing our first sender"
+    }
     //pushing notification to department based on his userId
     const user = await User.findOne({ _id: req.body.departmentInfo.userId });
     user.unseenNotifications.push({
@@ -203,6 +220,13 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
       onClickPath: "/department/appointments",
     });
     await user.save();
+    mailTransporter.sendMail(details,(err)=>{
+      if(err){
+        console.log("Cannot send email it has error", err)
+      }else{
+        console.log("Email has sent!")
+      }
+    })
     res.status(200).send({
       message: "Appointment booked successfully",
       success: true,

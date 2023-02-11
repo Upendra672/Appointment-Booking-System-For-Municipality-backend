@@ -24,13 +24,7 @@ app.listen(port, () => console.log(`Listining on port ${port}`));
 //       pass: 'sanan10messi'
 //     }
 //   });
-let mailTransporter = nodemailer.createTransport({
-    service : "gmail",
-    auth:{
-      user: "codercoder803@gmail.com",
-      pass: "zdpoebckalnszwsq"
-    }
-  })
+
 
   // Define email options
 // const mailOptions = {
@@ -51,17 +45,4 @@ let mailTransporter = nodemailer.createTransport({
   
   
    
-  let details = {
-    from: "codercoder803@gmail.com",
-    to: "saiyedsanan9@gmail.com",
-    subject : "testing our nodemailer",
-    text: "Testing our first sender"
-  }
   
-  mailTransporter.sendMail(details,(err)=>{
-    if(err){
-      console.log("Cannot send email it has error", err)
-    }else{
-      console.log("Email has sent!")
-    }
-  })
