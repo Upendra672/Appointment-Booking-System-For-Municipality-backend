@@ -219,7 +219,7 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
 
 router.post("/check-booking-availability", authMiddleware, async (req, res) => {
   try {
-    const date = moment(req.body.date, "DD-MM- YYYY").toISOString();
+    const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
     const fromTime = moment(req.body.time, "HH:mm")
       .subtract(1, "hours")
       .toISOString();
@@ -231,7 +231,7 @@ router.post("/check-booking-availability", authMiddleware, async (req, res) => {
       time: { $gte: fromTime, $lte: toTime },
       // status: "approved"
     });
-    if (appointments.length > 0) {
+    if (appointments.length >= 5) {
       return res.status(200).send({
         message: "Appointments Not Available",
         success: false,

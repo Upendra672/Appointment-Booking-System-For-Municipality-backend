@@ -1,4 +1,5 @@
 const express = require("express");
+const nodemailer = require('nodemailer');
 const app = express();
 require("dotenv").config();
 const dbconfig = require("./config/dbconfig");
@@ -14,3 +15,53 @@ const port = process.env.PORT || 5000;
 
 // console.log(process.env.MONGO_URL)
 app.listen(port, () => console.log(`Listining on port ${port}`));
+
+// Create a transport object using Gmail
+// const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//       user: 'saiyedsanan9@gmail.com',
+//       pass: 'sanan10messi'
+//     }
+//   });
+let mailTransporter = nodemailer.createTransport({
+    service : "gmail",
+    auth:{
+      user: "codercoder803@gmail.com",
+      pass: "zdpoebckalnszwsq"
+    }
+  })
+
+  // Define email options
+// const mailOptions = {
+//     from: 'saiyedsanan9@gmail.com',
+//     to: 'dhruvirana516@gmail.com',
+//     subject: 'Test Email from MERN Stack',
+//     text: 'This is a test email sent from a MERN stack application'
+//   };
+  
+  // Send the email
+//   transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log('Email sent: ' + info.response);
+//     }
+//   });
+  
+  
+   
+  let details = {
+    from: "codercoder803@gmail.com",
+    to: "saiyedsanan9@gmail.com",
+    subject : "testing our nodemailer",
+    text: "Testing our first sender"
+  }
+  
+  mailTransporter.sendMail(details,(err)=>{
+    if(err){
+      console.log("Cannot send email it has error", err)
+    }else{
+      console.log("Email has sent!")
+    }
+  })
